@@ -214,3 +214,19 @@ Users still reported the katana clipping out of frame on some device/browser com
 
 ### Why this update was made
 On some screens, users could only see the blade while the handle was clipped at the bottom. Raising the model and applying a small extra downscale ensures the full katana (including handle) stays visible in a single screen composition.
+
+## Update: Full SHINKEN ecommerce routing and purchase flow (2026-03-24)
+- Installed `react-router-dom` and routed the app into dedicated pages for product, cart, checkout, customize, and contact while preserving the existing home 3D scroll journey at `/`.
+- Added a global fixed premium `Navbar` with functional links, cart count badge, and direct purchase CTA.
+- Added a shared `CartContext` with functional add/remove/update quantity logic and computed totals.
+- Built fully functional pages:
+  - `ProductPage` with variant/quantity controls, add-to-cart, buy-now navigation, and related product links.
+  - `CartPage` with live quantity controls, remove behavior, shipping threshold logic, and checkout navigation.
+  - `CheckoutPage` with full shipping/payment form, conditional card fields, and in-page order confirmation + cart clearing.
+  - `CustomizePage` with custom blade commission form and success state.
+  - `ContactPage` with brand information, inquiry form, and message success state.
+- Updated `HeroDrop` with a large background SHINKEN typographic treatment behind existing hero content.
+- Updated README to document the project’s new ecommerce + 3D hybrid architecture and routes.
+
+### Why this update was made
+This change converts the previous showcase-only experience into a production-style premium ecommerce site while explicitly preserving the existing 3D home storytelling and scroll behavior. It provides real navigation and actionable purchase/custom inquiry flows on every major CTA.

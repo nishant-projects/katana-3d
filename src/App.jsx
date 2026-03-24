@@ -1,4 +1,6 @@
+import { Routes, Route } from 'react-router-dom'
 import Scene from './components/Scene'
+import Navbar from './components/Navbar'
 import HeroDrop from './components/sections/HeroDrop'
 import BladeSection from './components/sections/BladeSection'
 import EdgeSection from './components/sections/EdgeSection'
@@ -6,8 +8,14 @@ import RotationSection from './components/sections/RotationSection'
 import DrawSection from './components/sections/DrawSection'
 import EndCard from './components/sections/EndCard'
 import { useSnapScroll } from './hooks/useSnapScroll'
+import { CartProvider } from './context/CartContext'
+import ProductPage from './pages/ProductPage'
+import CartPage from './pages/CartPage'
+import CheckoutPage from './pages/CheckoutPage'
+import CustomizePage from './pages/CustomizePage'
+import ContactPage from './pages/ContactPage'
 
-function App() {
+function HomeView() {
   useSnapScroll()
 
   return (
@@ -75,6 +83,22 @@ function App() {
         <EndCard />
       </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <CartProvider>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+        <Route path="/product" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/customize" element={<CustomizePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </CartProvider>
   )
 }
 

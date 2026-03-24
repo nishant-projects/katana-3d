@@ -49,9 +49,30 @@ section {
   margin: 0;
 }
 
+a,
+button {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar-center-links a:hover {
+  color: #d4a847 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #d4a847 !important;
+  outline: none;
+}
+
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
 
 .section-line {
@@ -71,7 +92,19 @@ section {
 }
 
 @media (max-width: 768px) {
-  h1 { font-size: clamp(3rem, 15vw, 5rem) !important; }
-  h2 { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
-  section { padding: 0 5vw !important; }
+  h1 {
+    font-size: clamp(3rem, 15vw, 5rem) !important;
+  }
+
+  h2 {
+    font-size: clamp(2.5rem, 12vw, 4rem) !important;
+  }
+
+  section {
+    padding: 0 5vw !important;
+  }
+
+  .navbar-center-links {
+    display: none !important;
+  }
 }

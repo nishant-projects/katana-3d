@@ -40,53 +40,73 @@ export default function HeroDrop() {
         textAlign: 'center',
       }}
     >
-      <p
-        style={{
-          fontFamily: 'Noto Serif JP',
-          fontSize: '1.2rem',
-          letterSpacing: '0.5em',
-          color: '#b8b8b8',
-          marginBottom: '1rem',
-          fontWeight: 300,
-        }}
-      >
-        鋼 — 手作り
-      </p>
-      <h1
-        style={{
-          fontFamily: 'Bebas Neue',
-          fontSize: 'clamp(4rem, 12vw, 10rem)',
-          letterSpacing: '0.08em',
-          color: '#ffffff',
-          lineHeight: 0.9,
-          textShadow: '0 0 80px rgba(255,255,255,0.1)',
-        }}
-      >
-        FORGED
-        <br />
-        IN SILENCE
-      </h1>
-      <p
-        style={{
-          fontFamily: 'Noto Serif JP',
-          fontSize: '0.85rem',
-          letterSpacing: '0.3em',
-          color: '#a8a8a8',
-          marginTop: '2rem',
-          fontWeight: 300,
-        }}
-      >
-        SCROLL TO WITNESS
-      </p>
       <div
         style={{
-          width: '1px',
-          height: '60px',
-          background: 'linear-gradient(to bottom, #9a9a9a, transparent)',
-          margin: '1.5rem auto 0',
-          animation: 'pulse 2s ease-in-out infinite',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontFamily: 'Bebas Neue',
+          fontSize: 'clamp(8rem, 22vw, 18rem)',
+          letterSpacing: '0.05em',
+          color: 'rgba(255,255,255,0.04)',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none',
+          zIndex: 0,
+          userSelect: 'none',
         }}
-      />
+      >
+        SHINKEN
+      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <p
+          style={{
+            fontFamily: 'Noto Serif JP',
+            fontSize: '1.2rem',
+            letterSpacing: '0.5em',
+            color: '#b8b8b8',
+            marginBottom: '1rem',
+            fontWeight: 300,
+          }}
+        >
+          鋼 — 手作り
+        </p>
+        <h1
+          style={{
+            fontFamily: 'Bebas Neue',
+            fontSize: 'clamp(4rem, 12vw, 10rem)',
+            letterSpacing: '0.08em',
+            color: '#ffffff',
+            lineHeight: 0.9,
+            textShadow: '0 0 80px rgba(255,255,255,0.1)',
+          }}
+        >
+          FORGED
+          <br />
+          IN SILENCE
+        </h1>
+        <p
+          style={{
+            fontFamily: 'Noto Serif JP',
+            fontSize: '0.85rem',
+            letterSpacing: '0.3em',
+            color: '#a8a8a8',
+            marginTop: '2rem',
+            fontWeight: 300,
+          }}
+        >
+          SCROLL TO WITNESS
+        </p>
+        <div
+          style={{
+            width: '1px',
+            height: '60px',
+            background: 'linear-gradient(to bottom, #9a9a9a, transparent)',
+            margin: '1.5rem auto 0',
+            animation: 'pulse 2s ease-in-out infinite',
+          }}
+        />
+      </div>
     </section>
   )
 }
