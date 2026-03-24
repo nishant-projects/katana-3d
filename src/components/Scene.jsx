@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
@@ -31,16 +31,33 @@ function DustParticles() {
   )
 }
 
-function AnimatedKatana({ katanaRef }) {
+function AnimatedKatana({ katanaRef, isMobile }) {
   useScrollAnimation(katanaRef)
 
-  return <Katana ref={katanaRef} rotation={[0, 0, 0]} position={[0, 0, 0]} />
+  return (
+    <Katana
+      ref={katanaRef}
+      rotation={[0, 0, 0]}
+      position={[0, 0, 0]}
+      scale={isMobile ? 0.75 : 1}
+    />
+  )
 }
 
 export default function Scene() {
   const spotLightRef = useRef(null)
   const spotTargetRef = useRef(null)
   const katanaRef = useRef()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const updateViewport = () => setIsMobile(window.innerWidth < 768)
+
+    updateViewport()
+    window.addEventListener('resize', updateViewport)
+
+    return () => window.removeEventListener('resize', updateViewport)
+  }, [])
 
   useLayoutEffect(() => {
     if (!spotLightRef.current || !spotTargetRef.current) return
@@ -62,7 +79,9 @@ export default function Scene() {
       }}
     >
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
+        camera={{ position: [0, 0, isMobile ? 7 : 5], fov: 45 }}
+        performance={{ min: 0.5 }}
+        dpr={[1, 1.5]}
         style={{ background: '#000000', pointerEvents: 'none' }}
       >
         <ambientLight intensity={0.05} color="#ffffff" />
@@ -80,7 +99,7 @@ export default function Scene() {
         />
         <object3D ref={spotTargetRef} position={[0, 0, 0]} />
         <Environment preset="studio" />
-        <AnimatedKatana katanaRef={katanaRef} />
+        <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
         <DustParticles />
       </Canvas>
     </div>
