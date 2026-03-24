@@ -5,8 +5,11 @@ import EdgeSection from './components/sections/EdgeSection'
 import RotationSection from './components/sections/RotationSection'
 import DrawSection from './components/sections/DrawSection'
 import EndCard from './components/sections/EndCard'
+import { useSnapScroll } from './hooks/useSnapScroll'
 
 function App() {
+  useSnapScroll()
+
   return (
     <div style={{ background: '#000000' }}>
       <Scene />
