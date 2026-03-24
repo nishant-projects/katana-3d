@@ -197,3 +197,12 @@ Users reported three quality issues: the katana looked flat with no convincing t
 
 ### Why this update was made
 On some devices, the katana extended beyond the visible screen area (especially near the handle) in single-page sections. This change keeps the sword fully inside one viewport without changing section behavior or animation functionality.
+
+## Update: Additional mobile/tablet katana downscale tuning (2026-03-24)
+- Updated `src/components/Scene.jsx` responsive katana sizing logic to further reduce model size on constrained viewports.
+- Tightened the width/height fit references (`1600x1000`) and lowered the minimum fit floor to `0.5` so the model can shrink more when needed.
+- Reduced base katana scale multipliers (mobile and desktop) and added a short-height viewport penalty for screens with limited vertical space.
+- Preserved all existing animation, lighting, and interaction behavior; only viewport scale math was adjusted.
+
+### Why this update was made
+Users still reported the katana clipping out of frame on some device/browser combinations. This pass adds a stronger responsive downscale strategy so the full sword composition stays inside the visible screen more consistently.
