@@ -4,6 +4,33 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import Katana from './Katana'
 
+
+const DUST_COUNT = 120
+const DUST_POSITIONS = new Float32Array(DUST_COUNT * 3)
+
+for (let i = 0; i < DUST_COUNT; i++) {
+  DUST_POSITIONS[i * 3] = (Math.random() - 0.5) * 10
+  DUST_POSITIONS[i * 3 + 1] = (Math.random() - 0.5) * 10
+  DUST_POSITIONS[i * 3 + 2] = (Math.random() - 0.5) * 5
+}
+
+function DustParticles() {
+  return (
+    <points>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" count={DUST_COUNT} array={DUST_POSITIONS} itemSize={3} />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.015}
+        color="#888888"
+        transparent
+        opacity={0.4}
+        sizeAttenuation
+      />
+    </points>
+  )
+}
+
 function AnimatedKatana({ katanaRef }) {
   useScrollAnimation(katanaRef)
 
@@ -54,6 +81,7 @@ export default function Scene() {
         <object3D ref={spotTargetRef} position={[0, 0, 0]} />
         <Environment preset="studio" />
         <AnimatedKatana katanaRef={katanaRef} />
+        <DustParticles />
       </Canvas>
     </div>
   )
