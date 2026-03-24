@@ -12,7 +12,7 @@ export function useScrollAnimation(katanaRef) {
         trigger: '.scroll-container',
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1,
+        scrub: 2,
       }
     })
 

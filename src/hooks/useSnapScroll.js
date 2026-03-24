@@ -11,11 +11,15 @@ export function useSnapScroll() {
     function getSnapPoints() {
       const vh = window.innerHeight
       const points = []
-      let accumulated = 0
+      let sectionTop = 0
+
       for (const heightVh of SECTION_HEIGHTS_VH) {
-        points.push(accumulated)
-        accumulated += (heightVh / 100) * vh
+        const sectionHeightPx = (heightVh / 100) * vh
+        const snapTarget = heightVh > 100 ? sectionTop + vh : sectionTop
+        points.push(snapTarget)
+        sectionTop += sectionHeightPx
       }
+
       return points
     }
 

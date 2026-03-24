@@ -1,5 +1,7 @@
-import { forwardRef, useMemo } from 'react'
+import { forwardRef, useMemo, useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { KatanaHamonMaterial } from './KatanaShaderMaterial'
 
 const BLADE_LENGTH = 3.2
 const BLADE_BASE_WIDTH = 0.09
@@ -8,7 +10,17 @@ const BLADE_BASE_Y = -1.55
 const BLADE_TIP_Y = BLADE_BASE_Y + BLADE_LENGTH
 const BLADE_HALF_THICKNESS = BLADE_THICKNESS / 2
 
+void KatanaHamonMaterial
+
 const Katana = forwardRef(function Katana(props, ref) {
+  const hamonRef = useRef()
+
+  useFrame((_, delta) => {
+    if (hamonRef.current) {
+      hamonRef.current.uTime += delta
+    }
+  })
+
   const bladeGeometry = useMemo(() => {
     const halfBaseWidth = BLADE_BASE_WIDTH / 2
 
@@ -56,7 +68,7 @@ const Katana = forwardRef(function Katana(props, ref) {
     <group ref={ref} frustumCulled={false} {...props}>
       <group rotation={[0, 0, 0.02]}>
         <mesh geometry={bladeGeometry}>
-          <meshStandardMaterial color="#b8b8b8" metalness={0.95} roughness={0.05} />
+          <katanaHamonMaterial ref={hamonRef} />
         </mesh>
 
         <mesh position={[-0.028, -0.15, BLADE_HALF_THICKNESS + 0.0006]}>

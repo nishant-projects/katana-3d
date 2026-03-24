@@ -93,3 +93,15 @@ Vite already defaults to `dist`, but setting it explicitly makes deployment inte
 
 ### Why this update was made
 Registering GSAP plugins once at top-level bootstrap avoids duplicate side effects during hook/module evaluation while keeping scroll animation behavior identical.
+
+## Update: Hamon shader, centered snap targets, and depth polish (2026-03-24)
+- Rewrote `src/hooks/useSnapScroll.js` snap-point calculation so each 200vh section now snaps to its visual center (`sectionTop + 100vh`) while the 100vh EndCard snaps to section top, preserving existing Lenis touch/wheel handling and lock/safety behavior.
+- Added `src/components/KatanaShaderMaterial.jsx` with a custom GLSL shader material (`KatanaHamonMaterial`) that introduces spine-to-edge gradient response, procedural hamon line, Fresnel rim highlight, and subtle animated shimmer.
+- Updated `src/components/Katana.jsx` to use `useFrame` and animate `uTime` every frame, then swapped the blade material to `<katanaHamonMaterial ref={hamonRef} />` without changing geometry or other katana parts.
+- Updated `src/index.css` heading defaults to a single neutral `h1, h2` rule (`font-weight`, inherited color, zero margin) to avoid overriding section-specific typography.
+- Updated `src/components/Scene.jsx` lighting rig for stronger depth: reduced ambient, stronger key light, added cool underlight, increased gold point light power/range, removed rect area light, and changed environment preset to `warehouse`.
+- Updated `src/hooks/useScrollAnimation.js` `scrub` from `1` to `2` for heavier-feeling scroll response.
+- Updated `src/components/sections/EndCard.jsx` text colors from near-invisible dark grays to readable `#666` and `#555` on black.
+
+### Why this update was made
+This pass fixes section snap alignment with the actual sticky content zone, improves perceived blade realism through shader-driven metal response, increases scene contrast/depth for cinematic presentation, and resolves typography/readability conflicts without changing the core section layout or animation choreography.
