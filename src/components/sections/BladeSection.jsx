@@ -1,6 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function BladeSection() {
   const ref = useRef()
@@ -8,16 +10,16 @@ export default function BladeSection() {
   useEffect(() => {
     gsap.fromTo(
       ref.current.querySelectorAll('.reveal'),
-      { opacity: 0, x: 60 },
+      { opacity: 0, x: 40 },
       {
         opacity: 1,
         x: 0,
-        stagger: 0.15,
-        duration: 0.8,
+        stagger: 0.12,
+        duration: 0.7,
         scrollTrigger: {
           trigger: ref.current,
-          start: 'top 60%',
-          end: 'top 30%',
+          start: 'top 75%',
+          end: 'top 45%',
           scrub: 1,
         },
       }
@@ -28,9 +30,9 @@ export default function BladeSection() {
     <section
       ref={ref}
       style={{
-        height: '200vh',
+        height: '100vh',
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8vw',
         position: 'relative',
@@ -40,8 +42,6 @@ export default function BladeSection() {
     >
       <div
         style={{
-          position: 'sticky',
-          top: '40vh',
           textAlign: 'right',
           maxWidth: '420px',
         }}
