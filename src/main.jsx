@@ -14,6 +14,8 @@ const lenis = new Lenis({
   smooth: true,
 })
 
+window.__lenis = lenis
+
 function raf(time) {
   lenis.raf(time)
   ScrollTrigger.update()
