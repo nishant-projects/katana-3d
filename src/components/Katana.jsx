@@ -53,7 +53,7 @@ const Katana = forwardRef(function Katana(props, ref) {
   }, [])
 
   return (
-    <group ref={ref} {...props}>
+    <group ref={ref} frustumCulled={false} {...props}>
       <group rotation={[0, 0, 0.02]}>
         <mesh geometry={bladeGeometry}>
           <meshStandardMaterial color="#b8b8b8" metalness={0.95} roughness={0.05} />
