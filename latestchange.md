@@ -150,3 +150,26 @@ This change implements the requested premium katana showcase direction: physical
 
 ### Why this update was made
 Users reported that the sword looked oversized, appeared to break apart in some moments, and did not stay centered consistently during scroll. This pass focuses on animation restraint, proportional geometry tuning, and center-accurate snap behavior to deliver a more polished and realistic premium experience.
+
+## Update: Drei-inspired stage lighting, useScroll-style unsheathing, forged steel PBR, and selective edge bloom (2026-03-24)
+- Updated `src/components/Scene.jsx` to align more closely with the lighting composition patterns in Drei's `Stage` + `ContactShadows` implementation:
+  - enabled contact shadows through `Stage` shadow config (`type: contact`, tuned opacity/blur/far/resolution),
+  - moved to a dedicated `Environment preset="studio"` reflection setup,
+  - retained adaptive DPR via `PerformanceMonitor`.
+- Replaced full-scene `Bloom` with `SelectiveBloom` so only the blade edge receives glow:
+  - added `selectionLayer={10}` and object selection wiring,
+  - passed explicit scene lights to `SelectiveBloom` (`lights={lightRefs.current}`) to satisfy effect requirements.
+- Updated `src/components/Katana.jsx` materials and scene handles:
+  - switched blade base to forged-steel style `meshPhysicalMaterial` (high metalness, moderate roughness, full clearcoat, stronger env reflections),
+  - added a dedicated blade-edge mesh with emissive/metal tuning for highlight catches,
+  - registered bloom layer on the edge mesh,
+  - exposed katana-local lights (`blade-glint`, `blade-fill`) for selective bloom lighting.
+- Reworked `src/hooks/useScrollAnimation.js` from fixed timeline keyframes to a useScroll-style normalized interpolation loop:
+  - computes page progress from actual scroll range,
+  - smooths progress with damping for natural transitions,
+  - interpolates transform states between sections,
+  - drives blade unsheathing (`bladeGroup.position.y`) as part of interpolated state.
+- Updated `README.md` to reflect the current architecture (Stage/ContactShadows lighting, selective bloom edge, forged-steel PBR, and scroll interpolation workflow).
+
+### Why this update was made
+This pass implements the requested architectural direction from the provided references: physically richer katana steel, controlled stage lighting with contact grounding, smooth scroll-driven unsheathing behavior, and cinematic bloom constrained to the sharpened edge instead of the entire scene.

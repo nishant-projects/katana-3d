@@ -1,8 +1,9 @@
 import { forwardRef, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { MeshTransmissionMaterial } from '@react-three/drei'
 
-const Katana = forwardRef(function Katana(props, ref) {
+const BLOOM_LAYER = 10
+
+const Katana = forwardRef(function Katana({ bladeEdgeRef, lightRefs, ...props }, ref) {
   const tsubaGeometry = useMemo(() => {
     const shape = new THREE.Shape()
     shape.absellipse(0, 0, 0.24, 0.16, 0, Math.PI * 2, false, 0)
@@ -26,43 +27,65 @@ const Katana = forwardRef(function Katana(props, ref) {
 
     const bladeGroup = ref.current.getObjectByName('blade-group')
     const glintLight = ref.current.getObjectByName('blade-glint')
+    const fillLight = ref.current.getObjectByName('blade-fill')
 
     ref.current.userData.bladeGroup = bladeGroup
     ref.current.userData.glintLight = glintLight
-  }, [ref])
+
+    if (bladeEdgeRef?.current) {
+      bladeEdgeRef.current.layers.enable(BLOOM_LAYER)
+    }
+
+    if (lightRefs) {
+      lightRefs.current = [glintLight, fillLight].filter(Boolean)
+    }
+  }, [ref, bladeEdgeRef, lightRefs])
 
   return (
     <group ref={ref} {...props}>
       <group name="blade-group" position={[0, 0, 0]}>
-        <mesh position={[0, 0, 0]}>
+        <mesh position={[0, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.085, 3.05, 0.015]} />
-          <meshStandardMaterial color="#dce1e8" metalness={1} roughness={0.05} envMapIntensity={1.6} />
+          <meshPhysicalMaterial
+            color="#d8dde3"
+            metalness={1}
+            roughness={0.18}
+            envMapIntensity={2.2}
+            clearcoat={1}
+            clearcoatRoughness={0.04}
+            reflectivity={1}
+          />
         </mesh>
 
-        <mesh position={[0, 0.03, 0.01]}>
-          <boxGeometry args={[0.082, 2.9, 0.003]} />
-          <MeshTransmissionMaterial
-            thickness={0.08}
-            transmission={0.95}
+        <mesh ref={bladeEdgeRef} position={[0.038, 0.08, 0.008]}>
+          <boxGeometry args={[0.008, 2.75, 0.0025]} />
+          <meshStandardMaterial
+            color="#f6fbff"
+            emissive="#e8f6ff"
+            emissiveIntensity={1.15}
+            metalness={0.95}
             roughness={0.12}
-            ior={1.25}
-            chromaticAberration={0.02}
-            anisotropy={0.25}
-            clearcoat={1}
-            clearcoatRoughness={0.08}
-            color="#ffffff"
-            attenuationColor="#f4f8ff"
-            attenuationDistance={0.8}
+            toneMapped={false}
           />
         </mesh>
 
         <pointLight
           name="blade-glint"
-          position={[0.05, 1.15, 0.2]}
-          intensity={1.5}
-          distance={2.4}
+          position={[0.06, 1.2, 0.2]}
+          intensity={1.4}
+          distance={2.8}
           decay={2}
-          color="#dff2ff"
+          color="#dff3ff"
+        />
+
+        <spotLight
+          name="blade-fill"
+          position={[-0.18, 0.9, 0.75]}
+          intensity={0.9}
+          angle={0.34}
+          penumbra={0.6}
+          distance={4}
+          color="#c7d7e8"
         />
       </group>
 
