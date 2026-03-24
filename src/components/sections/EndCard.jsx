@@ -33,7 +33,7 @@ export default function EndCard() {
           color: '#9a9a9a',
         }}
       >
-        @Nishant_vib
+    
       </p>
     </section>
   )
