@@ -76,11 +76,15 @@ export default function Scene() {
       const mobile = window.innerWidth < 992
       setIsMobile(mobile)
 
-      const widthScale = Math.min(window.innerWidth / 1400, 1)
-      const heightScale = Math.min(window.innerHeight / 900, 1)
-      const fitScale = Math.max(0.58, Math.min(widthScale, heightScale))
+      const widthScale = Math.min(window.innerWidth / 1600, 1)
+      const heightScale = Math.min(window.innerHeight / 1000, 1)
+      const fitScale = Math.max(0.5, Math.min(widthScale, heightScale))
 
-      setViewportScale((mobile ? 0.68 : 0.9) * fitScale)
+      // Short-height devices (tablet landscape / browser UI overlays) need extra downscale
+      const shortViewportPenalty = window.innerHeight < 760 ? 0.92 : 1
+      const baseScale = mobile ? 0.62 : 0.84
+
+      setViewportScale(baseScale * fitScale * shortViewportPenalty)
     }
 
     updateViewport()
