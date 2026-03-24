@@ -5,6 +5,9 @@ export function useSnapScroll() {
     let isScrolling = false
     let touchStartY = 0
     let safetyTimer = null
+    let wheelAccumulator = 0
+    let wheelResetTimer = null
+    const WHEEL_THRESHOLD = 44
 
     function getSections() {
       return Array.from(document.querySelectorAll('.scroll-container > section'))
@@ -62,9 +65,24 @@ export function useSnapScroll() {
     }
 
     function onWheel(e) {
-      if (Math.abs(e.deltaY) < 1) return
+      if (e.ctrlKey || e.metaKey || e.altKey) return
+      if (Math.abs(e.deltaY) < 0.8) return
+
       e.preventDefault()
-      const direction = e.deltaY > 0 ? 1 : -1
+      e.stopPropagation()
+
+      if (isScrolling) return
+
+      wheelAccumulator += e.deltaY
+      if (wheelResetTimer) clearTimeout(wheelResetTimer)
+      wheelResetTimer = setTimeout(() => {
+        wheelAccumulator = 0
+      }, 120)
+
+      if (Math.abs(wheelAccumulator) < WHEEL_THRESHOLD) return
+
+      const direction = wheelAccumulator > 0 ? 1 : -1
+      wheelAccumulator = 0
       snapTo(direction)
     }
 
@@ -86,15 +104,35 @@ export function useSnapScroll() {
       snapTo(direction)
     }
 
-    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+    function onKeyDown(e) {
+      if (isScrolling) return
+      if (e.repeat) return
+
+      const nextKeys = ['ArrowDown', 'PageDown', ' ']
+      const prevKeys = ['ArrowUp', 'PageUp']
+
+      if (nextKeys.includes(e.key)) {
+        e.preventDefault()
+        snapTo(1)
+      } else if (prevKeys.includes(e.key)) {
+        e.preventDefault()
+        snapTo(-1)
+      }
+    }
+
+    const wheelOptions = { passive: false, capture: true }
+    window.addEventListener('wheel', onWheel, wheelOptions)
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchend', onTouchEnd, { passive: true })
+    window.addEventListener('keydown', onKeyDown, { passive: false })
 
     return () => {
-      window.removeEventListener('wheel', onWheel, { capture: true })
+      window.removeEventListener('wheel', onWheel, wheelOptions)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchend', onTouchEnd)
+      window.removeEventListener('keydown', onKeyDown)
       if (safetyTimer) clearTimeout(safetyTimer)
+      if (wheelResetTimer) clearTimeout(wheelResetTimer)
       if (window.__lenis) window.__lenis.start()
     }
   }, [])

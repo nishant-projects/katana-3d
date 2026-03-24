@@ -23,6 +23,7 @@ html {
 body {
   background: var(--black);
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 canvas {
@@ -89,6 +90,13 @@ textarea:focus {
   color: #d4a847;
   text-transform: uppercase;
   font-weight: 300;
+}
+
+@media (min-width: 1200px) {
+  .scroll-container > section {
+    padding-left: clamp(5vw, 8vw, 10vw) !important;
+    padding-right: clamp(5vw, 8vw, 10vw) !important;
+  }
 }
 
 @media (max-width: 768px) {
