@@ -1,17 +1,22 @@
 import Scene from './components/Scene'
-import './styles/global.css'
+import HeroDrop from './components/sections/HeroDrop'
+import BladeSection from './components/sections/BladeSection'
+import EdgeSection from './components/sections/EdgeSection'
+import RotationSection from './components/sections/RotationSection'
+import DrawSection from './components/sections/DrawSection'
+import EndCard from './components/sections/EndCard'
 
 function App() {
   return (
-    <div>
+    <div style={{ background: '#000000' }}>
       <Scene />
       <div className="scroll-container">
-        <section style={{height: '200vh'}}></section>
-        <section style={{height: '200vh'}}></section>
-        <section style={{height: '200vh'}}></section>
-        <section style={{height: '200vh'}}></section>
-        <section style={{height: '200vh'}}></section>
-        <section style={{height: '200vh'}}></section>
+        <HeroDrop />
+        <BladeSection />
+        <EdgeSection />
+        <RotationSection />
+        <DrawSection />
+        <EndCard />
       </div>
     </div>
   )
