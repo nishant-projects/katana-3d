@@ -33,7 +33,7 @@ export default function EndCard() {
           color: '#b5b5b5',
         }}
       >
-        SHINKEN · MASTERCRAFT SERIES
+        MADE WITH CODEX 
       </p>
     </section>
   )
