@@ -86,7 +86,17 @@ export function useScrollAnimation(katanaRef) {
       duration: 1,
     }, 4.5)
 
+    const handleScrollProgress = () => {
+      const scrolled =
+        window.scrollY / (document.body.scrollHeight - window.innerHeight)
+      const el = document.getElementById('scroll-progress')
+      if (el) el.style.height = (scrolled * 60) + 'vh'
+    }
+
+    window.addEventListener('scroll', handleScrollProgress)
+
     return () => {
+      window.removeEventListener('scroll', handleScrollProgress)
       tl.kill()
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
