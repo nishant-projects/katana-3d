@@ -3,26 +3,27 @@ import gsap from 'gsap'
 
 const SWORD_STATES = {
   section2: {
-    rotation: { z: -0.55 },
-    position: { x: -0.8 },
+    rotation: { z: -0.35, y: 0.12 },
+    position: { x: -0.35, y: 0.03 },
   },
   section3: {
-    scale: { x: 1.7, y: 1.7, z: 1.7 },
-    rotation: { y: 0.35 },
+    scale: { x: 1.08, y: 1.08, z: 1.08 },
+    rotation: { y: 0.28, z: -0.18 },
+    position: { x: 0.18, y: 0.06 },
   },
   section4: {
-    rotation: { y: Math.PI * 2 },
-    scale: { x: 1.2, y: 1.2, z: 1.2 },
-    position: { x: 0 },
+    rotation: { y: Math.PI * 1.15, z: 0 },
+    scale: { x: 1, y: 1, z: 1 },
+    position: { x: 0, y: 0.02 },
   },
   section5: {
-    rotation: { z: -1.35, y: 0 },
-    position: { x: -1.75, y: 0 },
+    rotation: { z: -0.62, y: 0.05 },
+    position: { x: -0.22, y: -0.02 },
   },
   section6: {
     rotation: { z: 0, y: 0 },
     position: { x: 0, y: 0 },
-    scale: { x: 1, y: 1, z: 1 },
+    scale: { x: 0.95, y: 0.95, z: 0.95 },
   },
 }
 
@@ -43,8 +44,8 @@ export function useScrollAnimation(katanaRef) {
     })
 
     if (bladeGroup) {
-      tl.to(bladeGroup.position, { y: 1.12 }, 0)
-      tl.to(bladeGroup.position, { y: 0 }, 1.15)
+      tl.to(bladeGroup.position, { y: 0.38 }, 0.15)
+      tl.to(bladeGroup.position, { y: 0.04 }, 1.25)
     }
 
     tl.to(katanaRef.current.rotation, SWORD_STATES.section2.rotation, 0)
@@ -52,6 +53,7 @@ export function useScrollAnimation(katanaRef) {
 
     tl.to(katanaRef.current.scale, SWORD_STATES.section3.scale, 1)
     tl.to(katanaRef.current.rotation, SWORD_STATES.section3.rotation, 1)
+    tl.to(katanaRef.current.position, SWORD_STATES.section3.position, 1)
 
     tl.to(katanaRef.current.rotation, SWORD_STATES.section4.rotation, 2)
     tl.to(katanaRef.current.scale, SWORD_STATES.section4.scale, 2)

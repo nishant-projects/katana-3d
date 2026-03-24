@@ -11,20 +11,21 @@ function AnimatedKatana({ katanaRef, isMobile }) {
   useFrame((state) => {
     if (!katanaRef.current) return
 
-    const targetX = state.pointer.y * 0.12
-    const targetY = state.pointer.x * 0.2
+    const pointerFactor = isMobile ? 0.35 : 1
+    const targetX = state.pointer.y * 0.08 * pointerFactor
+    const targetY = state.pointer.x * 0.14 * pointerFactor
 
-    katanaRef.current.rotation.x += (targetX - katanaRef.current.rotation.x) * 0.06
-    katanaRef.current.rotation.y += (targetY - katanaRef.current.rotation.y) * 0.06
+    katanaRef.current.rotation.x += (targetX - katanaRef.current.rotation.x) * 0.04
+    katanaRef.current.rotation.y += (targetY - katanaRef.current.rotation.y) * 0.04
   })
 
   return (
-    <Float speed={0.8} floatIntensity={0.2} rotationIntensity={0.12}>
+    <Float speed={0.45} floatIntensity={0.08} rotationIntensity={0.05}>
       <Katana
         ref={katanaRef}
         rotation={[0, 0, 0]}
-        position={[0, isMobile ? -0.05 : 0, 0]}
-        scale={isMobile ? 0.78 : 1}
+        position={[0, isMobile ? -0.04 : 0, 0]}
+        scale={isMobile ? 0.68 : 0.9}
       />
     </Float>
   )

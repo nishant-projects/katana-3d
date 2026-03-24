@@ -34,13 +34,13 @@ const Katana = forwardRef(function Katana(props, ref) {
   return (
     <group ref={ref} {...props}>
       <group name="blade-group" position={[0, 0, 0]}>
-        <mesh position={[0, 0.05, 0]}>
-          <boxGeometry args={[0.09, 3.4, 0.016]} />
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[0.085, 3.05, 0.015]} />
           <meshStandardMaterial color="#dce1e8" metalness={1} roughness={0.05} envMapIntensity={1.6} />
         </mesh>
 
-        <mesh position={[0, 0.1, 0.011]}>
-          <boxGeometry args={[0.087, 3.2, 0.003]} />
+        <mesh position={[0, 0.03, 0.01]}>
+          <boxGeometry args={[0.082, 2.9, 0.003]} />
           <MeshTransmissionMaterial
             thickness={0.08}
             transmission={0.95}
@@ -58,25 +58,25 @@ const Katana = forwardRef(function Katana(props, ref) {
 
         <pointLight
           name="blade-glint"
-          position={[0.06, 1.4, 0.2]}
-          intensity={1.9}
-          distance={2.8}
+          position={[0.05, 1.15, 0.2]}
+          intensity={1.5}
+          distance={2.4}
           decay={2}
           color="#dff2ff"
         />
       </group>
 
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -1.68, -0.022]} geometry={tsubaGeometry}>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -1.56, -0.02]} geometry={tsubaGeometry}>
         <meshStandardMaterial color="#2b2b2f" metalness={0.95} roughness={0.18} />
       </mesh>
 
-      <mesh position={[0, -2.22, 0]}>
-        <cylinderGeometry args={[0.05, 0.055, 1.05, 24]} />
+      <mesh position={[0, -2.02, 0]}>
+        <cylinderGeometry args={[0.046, 0.052, 0.88, 24]} />
         <meshStandardMaterial color="#1d120a" metalness={0.2} roughness={0.75} />
       </mesh>
 
-      <mesh position={[0, -2.8, 0]}>
-        <cylinderGeometry args={[0.045, 0.07, 0.12, 24]} />
+      <mesh position={[0, -2.52, 0]}>
+        <cylinderGeometry args={[0.042, 0.064, 0.11, 24]} />
         <meshStandardMaterial color="#2d2d2d" metalness={0.85} roughness={0.25} />
       </mesh>
     </group>
