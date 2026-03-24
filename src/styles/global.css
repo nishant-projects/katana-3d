@@ -1,0 +1,49 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --steel: #c0c0c0;
+  --gold: #d4a847;
+  --accent: #8b0000;
+  --dim: #1a1a1a;
+}
+
+html {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Bebas Neue', sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--black);
+  overflow-x: hidden;
+}
+
+canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scroll-container {
+  position: relative;
+  z-index: 2;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
