@@ -10,7 +10,7 @@ export function KatanaModel() {
   const tl = useRef();
 
   // Load your model (ensure it's in /public)
-  const { nodes, materials } = useGLTF("/katana.glb");
+  const { nodes, materials } = useGLTF("/public/katana.glb");
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
