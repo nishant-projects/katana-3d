@@ -115,3 +115,27 @@ This pass fixes section snap alignment with the actual sticky content zone, impr
 
 ### Why this update was made
 Users were seeing misaligned page stops and empty gaps between text sections while snapping, especially on mobile/tablet browsers. These changes make snapping section-aware and viewport-stable, ensuring one-scroll-per-page behavior and centered text frames without changing the overall animation flow or content structure.
+
+## Update: Premium steel shader workflow, tilt control, bloom, and adaptive performance (2026-03-24)
+- Rebuilt `src/components/Katana.jsx` to match the requested premium procedural setup:
+  - blade now uses `BoxGeometry`
+  - tsuba now uses `ExtrudeGeometry`
+  - blade material is tuned to `meshStandardMaterial` with `metalness={1}` and `roughness={0.05}`
+  - added `MeshTransmissionMaterial` overlay on the blade for hamon-style highlight catching
+  - added a blade-mounted point light (`blade-glint`) so specular glints travel with blade motion.
+- Reworked `src/components/Scene.jsx`:
+  - added Drei `Stage` + `Environment` for realistic metal reflections
+  - added `Environment preset="city"` to guarantee meaningful reflection data
+  - added `EffectComposer` + `Bloom` from `@react-three/postprocessing`
+  - wrapped the katana with `<Float>` for subtle idle animation
+  - implemented pointer/touch-sensitive tilt using `useFrame`
+  - added `PerformanceMonitor`-based DPR fallback (`1.5` -> `1`) when performance drops.
+- Updated `src/hooks/useScrollAnimation.js`:
+  - added scroll-driven blade unsheathing (`blade-group` local Y motion)
+  - preserved existing cinematic section-based timeline transforms
+  - tightened cleanup so only this hook's timeline/trigger are killed.
+- Updated dependency graph (`package.json`, `package-lock.json`) to include `@react-three/postprocessing` and `postprocessing`.
+- Replaced default Vite template README with a project-specific `README.md` reflecting current architecture, interactions, and run/build instructions.
+
+### Why this update was made
+This change implements the requested premium katana showcase direction: physically convincing metal response, motion-sensitive shine, scroll-based unsheathing narrative, and better tablet/mobile resilience through adaptive render quality.
