@@ -82,7 +82,13 @@ export default function Scene() {
         camera={{ position: [0, 0, isMobile ? 7 : 5], fov: 45 }}
         performance={{ min: 0.5 }}
         dpr={[1, 1.5]}
-        style={{ background: '#000000', pointerEvents: 'none' }}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          background: '#000000',
+          pointerEvents: 'none',
+        }}
       >
         <ambientLight intensity={0.05} color="#ffffff" />
         <directionalLight position={[3, 2, 2]} intensity={4} color="#ffffff" />
