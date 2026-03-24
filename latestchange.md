@@ -54,3 +54,14 @@ The previous setup looked visually flat. These lighting and environment changes 
 
 ### Why this update was made
 The scroll animation was not consistently triggering because the scroll area was too short and the animation hook placement could race with canvas object lifecycle timing. These fixes preserve existing katana geometry while making ScrollTrigger activation stable.
+
+## Update: HeroDrop section implementation and pulse keyframe (2026-03-24)
+- Replaced `src/components/sections/HeroDrop.jsx` placeholder with the requested GSAP-based hero drop section, including:
+  - entrance fade/translate animation on mount,
+  - scroll-linked fade out using `scrollTrigger`,
+  - sticky centered headline/content stack,
+  - decorative pulsing vertical line.
+- Added global `@keyframes pulse` animation to `src/styles/global.css` for the hero indicator line.
+
+### Why this update was made
+This implements the requested cinematic hero intro behavior and shared pulse animation needed by the section’s inline styles.
