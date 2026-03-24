@@ -1,8 +1,19 @@
+import { useLayoutEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import Katana from './Katana'
 
 export default function Scene() {
+  const spotLightRef = useRef(null)
+  const spotTargetRef = useRef(null)
+
+  useLayoutEffect(() => {
+    if (!spotLightRef.current || !spotTargetRef.current) return
+
+    spotLightRef.current.target = spotTargetRef.current
+    spotLightRef.current.target.updateMatrixWorld()
+  }, [])
+
   return (
     <div
       style={{
@@ -20,11 +31,20 @@ export default function Scene() {
         style={{ background: '#000000' }}
       >
         <ambientLight intensity={0.05} color="#ffffff" />
-        <directionalLight position={[3, 2, 2]} intensity={2.5} color="#ffffff" />
+        <directionalLight position={[3, 2, 2]} intensity={4} color="#ffffff" />
         <directionalLight position={[-3, 1, -1]} intensity={0.8} color="#b0c4de" />
         <pointLight position={[0, 3, 2]} intensity={1.5} color="#d4a847" distance={8} />
         <rectAreaLight position={[2, 0, 1]} width={0.5} height={4} intensity={3} color="#c0c0c0" />
-        <Environment preset="night" />
+        <spotLight
+          ref={spotLightRef}
+          position={[1, 4, 3]}
+          intensity={5}
+          angle={0.3}
+          penumbra={0.5}
+          color="#ffffff"
+        />
+        <object3D ref={spotTargetRef} position={[0, 0, 0]} />
+        <Environment preset="studio" />
         <Katana rotation={[0, 0, 0]} position={[0, 0, 0]} />
       </Canvas>
     </div>

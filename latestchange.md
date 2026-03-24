@@ -37,3 +37,12 @@ The PNG file was blocking PR creation in your workflow, so it was removed to mak
 
 ### Why this update was made
 This change moves the scene from a placeholder shape to the real katana model and introduces a controlled lighting rig that better highlights blade material, edge definition, and reflections while keeping the composition static for the next animation step.
+
+## Update: Lighting depth and blade finish tuning (2026-03-24)
+- Increased the key directional light intensity in `src/components/Scene.jsx` from `2.5` to `4` to improve primary highlights and contrast.
+- Added a new spotlight at position `[1, 4, 3]` with `intensity={5}`, `angle={0.3}`, and `penumbra={0.5}`, explicitly targeted to `[0, 0, 0]` for stronger focal lighting on the katana.
+- Switched the environment preset from `"night"` to `"studio"` for cleaner, more controlled metallic reflections.
+- Verified the blade material remains tuned at `metalness={0.95}` and `roughness={0.05}` in `src/components/Katana.jsx`.
+
+### Why this update was made
+The previous setup looked visually flat. These lighting and environment changes increase depth, bring out edge/specular detail, and maintain a polished steel response on the blade without altering any geometry.
