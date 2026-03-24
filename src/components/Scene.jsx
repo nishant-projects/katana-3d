@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import Katana from './Katana'
@@ -6,6 +7,9 @@ import Katana from './Katana'
 export default function Scene() {
   const spotLightRef = useRef(null)
   const spotTargetRef = useRef(null)
+  const katanaRef = useRef()
+
+  useScrollAnimation(katanaRef)
 
   useLayoutEffect(() => {
     if (!spotLightRef.current || !spotTargetRef.current) return
@@ -45,7 +49,7 @@ export default function Scene() {
         />
         <object3D ref={spotTargetRef} position={[0, 0, 0]} />
         <Environment preset="studio" />
-        <Katana rotation={[0, 0, 0]} position={[0, 0, 0]} />
+        <Katana ref={katanaRef} rotation={[0, 0, 0]} position={[0, 0, 0]} />
       </Canvas>
     </div>
   )
