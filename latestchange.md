@@ -22,3 +22,18 @@ This establishes the exact starter architecture and dependencies needed for the 
 
 ### Why this follow-up was made
 The PNG file was blocking PR creation in your workflow, so it was removed to make the PR pass cleanly.
+
+## Update: Scene lighting and katana render setup (2026-03-24)
+- Updated `src/components/Scene.jsx` to import and render the `Katana` component instead of the temporary box mesh.
+- Added a fixed full-viewport wrapper around `<Canvas>` with `pointerEvents: 'none'` so the 3D layer stays as a non-blocking visual overlay.
+- Replaced the old basic lights with a cinematic static setup:
+  - ambient light (`0.05`, white)
+  - key directional light from right (`[3, 2, 2]`, `2.5`, white)
+  - cool fill directional light from left (`[-3, 1, -1]`, `0.8`, `#b0c4de`)
+  - warm rim point light (`[0, 3, 2]`, `1.5`, `#d4a847`, distance `8`)
+  - rect area edge light (`[2, 0, 1]`, width `0.5`, height `4`, intensity `3`, `#c0c0c0`)
+- Added `<Environment preset="night" />` from `@react-three/drei` for stronger metallic reflections.
+- Set the katana transform to a static vertical default (`rotation={[0,0,0]}`, `position={[0,0,0]}`) with no animation.
+
+### Why this update was made
+This change moves the scene from a placeholder shape to the real katana model and introduces a controlled lighting rig that better highlights blade material, edge definition, and reflections while keeping the composition static for the next animation step.
