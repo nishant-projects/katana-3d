@@ -1,16 +1,50 @@
-# React + Vite
+# Katana 3D Showcase
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-end interactive 3D katana showcase built with React 19, React Three Fiber, Drei, and GSAP.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + Vite
+- `three`, `@react-three/fiber`, `@react-three/drei`
+- `gsap` + `ScrollTrigger`
+- `@react-three/postprocessing` for bloom
+- `lenis` for smooth/snap scrolling
 
-## React Compiler
+## Key Visual Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Procedural katana model:
+  - Blade built from `BoxGeometry`
+  - Guard (tsuba) built from `ExtrudeGeometry`
+- Metallic steel blade material (`metalness: 1`, `roughness: 0.05`)
+- Hamon highlight layer using `MeshTransmissionMaterial`
+- Environment reflections with `Stage` + `Environment` presets
+- Bloom postprocessing for bright highlight glow
 
-## Expanding the ESLint configuration
+## Interactions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Mouse/touch tilt sensitivity via `useFrame`
+- Scroll-driven GSAP timeline for cinematic transforms
+- Scroll-triggered unsheathing motion
+- Gentle idle movement using `<Float>`
+- Adaptive rendering quality with `PerformanceMonitor` (DPR downscales on low FPS)
+
+## Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Project Structure (Core)
+
+- `src/components/Scene.jsx` – canvas, lighting, stage, environment, bloom, performance monitor
+- `src/components/Katana.jsx` – procedural katana geometry + materials
+- `src/hooks/useScrollAnimation.js` – scroll timeline and unsheathing animation
+- `src/hooks/useSnapScroll.js` – section snap-scroll behavior

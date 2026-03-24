@@ -1,37 +1,36 @@
 import { useEffect } from 'react'
 import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
-
-const TOTAL_SCROLL_SPAN_VH = 500
 
 const SWORD_STATES = {
   section2: {
-    rotation: { z: -0.7 },
-    position: { x: -1 }
+    rotation: { z: -0.55 },
+    position: { x: -0.8 },
   },
   section3: {
-    scale: { x: 1.8, y: 1.8, z: 1.8 },
-    rotation: { y: 0.4 }
+    scale: { x: 1.7, y: 1.7, z: 1.7 },
+    rotation: { y: 0.35 },
   },
   section4: {
     rotation: { y: Math.PI * 2 },
     scale: { x: 1.2, y: 1.2, z: 1.2 },
-    position: { x: 0 }
+    position: { x: 0 },
   },
   section5: {
-    rotation: { z: -1.5708, y: 0 },
-    position: { x: -2, y: 0 }
+    rotation: { z: -1.35, y: 0 },
+    position: { x: -1.75, y: 0 },
   },
   section6: {
     rotation: { z: 0, y: 0 },
     position: { x: 0, y: 0 },
-    scale: { x: 1, y: 1, z: 1 }
-  }
+    scale: { x: 1, y: 1, z: 1 },
+  },
 }
 
 export function useScrollAnimation(katanaRef) {
   useEffect(() => {
     if (!katanaRef.current) return
+
+    const bladeGroup = katanaRef.current.userData?.bladeGroup
 
     const tl = gsap.timeline({
       defaults: { ease: 'none', duration: 1 },
@@ -40,11 +39,14 @@ export function useScrollAnimation(katanaRef) {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1.5,
-      }
+      },
     })
 
-    // Timeline keyframe anchors: 0, 1, 2, 3, 4 across a 500vh scroll span.
-    // This means each timeline unit represents 100vh of effective scroll.
+    if (bladeGroup) {
+      tl.to(bladeGroup.position, { y: 1.12 }, 0)
+      tl.to(bladeGroup.position, { y: 0 }, 1.15)
+    }
+
     tl.to(katanaRef.current.rotation, SWORD_STATES.section2.rotation, 0)
     tl.to(katanaRef.current.position, SWORD_STATES.section2.position, 0)
 
@@ -62,21 +64,20 @@ export function useScrollAnimation(katanaRef) {
     tl.to(katanaRef.current.position, SWORD_STATES.section6.position, 4)
     tl.to(katanaRef.current.scale, SWORD_STATES.section6.scale, 4)
 
-    const handleScrollProgress = () => {
-      const scrollSpanPx = (TOTAL_SCROLL_SPAN_VH / 100) * window.innerHeight
-      const scrolledPx = Math.min(window.scrollY, scrollSpanPx)
-      const scrolled = scrollSpanPx > 0 ? scrolledPx / scrollSpanPx : 0
+    const updateProgress = () => {
+      const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1)
+      const progress = Math.min(window.scrollY / maxScroll, 1)
       const el = document.getElementById('scroll-progress')
-      if (el) el.style.height = (scrolled * 60) + 'vh'
+      if (el) el.style.height = `${progress * 60}vh`
     }
 
-    window.addEventListener('scroll', handleScrollProgress)
-    handleScrollProgress()
+    window.addEventListener('scroll', updateProgress)
+    updateProgress()
 
     return () => {
-      window.removeEventListener('scroll', handleScrollProgress)
+      window.removeEventListener('scroll', updateProgress)
+      tl.scrollTrigger?.kill()
       tl.kill()
-      ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [katanaRef])
 }

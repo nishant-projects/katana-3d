@@ -1,69 +1,73 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Environment, Float, PerformanceMonitor, Stage } from '@react-three/drei'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
-import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 import Katana from './Katana'
-
-
-const DUST_COUNT = 40
-const DUST_POSITIONS = new Float32Array(DUST_COUNT * 3)
-
-for (let i = 0; i < DUST_COUNT; i++) {
-  DUST_POSITIONS[i * 3] = (Math.random() - 0.5) * 10
-  DUST_POSITIONS[i * 3 + 1] = (Math.random() - 0.5) * 10
-  DUST_POSITIONS[i * 3 + 2] = (Math.random() - 0.5) * 5
-}
-
-function DustParticles() {
-  return (
-    <points>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={DUST_COUNT} array={DUST_POSITIONS} itemSize={3} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.015}
-        color="#888888"
-        transparent
-        opacity={0.4}
-        sizeAttenuation
-      />
-    </points>
-  )
-}
 
 function AnimatedKatana({ katanaRef, isMobile }) {
   useScrollAnimation(katanaRef)
 
+  useFrame((state) => {
+    if (!katanaRef.current) return
+
+    const targetX = state.pointer.y * 0.12
+    const targetY = state.pointer.x * 0.2
+
+    katanaRef.current.rotation.x += (targetX - katanaRef.current.rotation.x) * 0.06
+    katanaRef.current.rotation.y += (targetY - katanaRef.current.rotation.y) * 0.06
+  })
+
   return (
-    <Katana
-      ref={katanaRef}
-      rotation={[0, 0, 0]}
-      position={[0, 0, 0]}
-      scale={isMobile ? 0.75 : 1}
-    />
+    <Float speed={0.8} floatIntensity={0.2} rotationIntensity={0.12}>
+      <Katana
+        ref={katanaRef}
+        rotation={[0, 0, 0]}
+        position={[0, isMobile ? -0.05 : 0, 0]}
+        scale={isMobile ? 0.78 : 1}
+      />
+    </Float>
+  )
+}
+
+function SceneContent({ katanaRef, isMobile }) {
+  return (
+    <>
+      <Stage
+        intensity={0.65}
+        environment="studio"
+        preset="rembrandt"
+        adjustCamera={false}
+        shadows={false}
+      >
+        <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
+      </Stage>
+
+      <Environment preset="city" />
+
+      <EffectComposer>
+        <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
+      </EffectComposer>
+    </>
   )
 }
 
 export default function Scene() {
-  const spotLightRef = useRef(null)
-  const spotTargetRef = useRef(null)
-  const katanaRef = useRef()
+  const katanaRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [dpr, setDpr] = useState(1.5)
+
+  const camera = useMemo(
+    () => ({ position: [0, 0.1, isMobile ? 7 : 5.6], fov: 40, near: 0.1, far: 1000 }),
+    [isMobile]
+  )
 
   useEffect(() => {
-    const updateViewport = () => setIsMobile(window.innerWidth < 768)
+    const updateViewport = () => setIsMobile(window.innerWidth < 992)
 
     updateViewport()
     window.addEventListener('resize', updateViewport)
-
     return () => window.removeEventListener('resize', updateViewport)
-  }, [])
-
-  useLayoutEffect(() => {
-    if (!spotLightRef.current || !spotTargetRef.current) return
-
-    spotLightRef.current.target = spotTargetRef.current
-    spotLightRef.current.target.updateMatrixWorld()
   }, [])
 
   return (
@@ -79,34 +83,18 @@ export default function Scene() {
       }}
     >
       <Canvas
-        camera={{ position: [0, 0, isMobile ? 7 : 5], fov: 45, near: 0.1, far: 1000 }}
-        performance={{ min: 0.5 }}
-        dpr={[1, 1.5]}
-        gl={{ powerPreference: 'high-performance' }}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          background: '#000000',
-          pointerEvents: 'none',
-        }}
+        camera={camera}
+        dpr={dpr}
+        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        style={{ position: 'fixed', top: 0, left: 0, background: '#000000', pointerEvents: 'none' }}
       >
-        <ambientLight intensity={0.03} color="#ffffff" />
-        <directionalLight position={[3, 2, 2]} intensity={5} color="#ffffff" />
-        <directionalLight position={[-2, -1, -1]} intensity={1.2} color="#4466aa" />
-        <pointLight position={[0, 3, 2]} intensity={2} color="#d4a847" distance={10} />
-        <spotLight
-          ref={spotLightRef}
-          position={[1, 4, 3]}
-          intensity={5}
-          angle={0.3}
-          penumbra={0.5}
-          color="#ffffff"
+        <PerformanceMonitor
+          bounds={() => [45, 60]}
+          onDecline={() => setDpr(1)}
+          onIncline={() => setDpr(1.5)}
         />
-        <object3D ref={spotTargetRef} position={[0, 0, 0]} />
-        <Environment preset="warehouse" />
-        <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
-        <DustParticles />
+
+        <SceneContent katanaRef={katanaRef} isMobile={isMobile} />
       </Canvas>
     </div>
   )
