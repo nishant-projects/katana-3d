@@ -30,7 +30,7 @@ export default function BladeSection() {
     <section
       ref={ref}
       style={{
-        height: '100vh',
+        height: '100dvh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',

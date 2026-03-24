@@ -1,22 +1,21 @@
 import { useEffect } from 'react'
 
-const SECTION_COUNT = 6
-
 export function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
     let touchStartY = 0
     let safetyTimer = null
 
+    function getSections() {
+      return Array.from(document.querySelectorAll('.scroll-container > section'))
+    }
+
     function getSnapPoints() {
-      const vh = window.innerHeight
-      const points = []
-
-      for (let i = 0; i < SECTION_COUNT; i += 1) {
-        points.push(i * vh)
-      }
-
-      return points
+      const sections = getSections()
+      return sections.map((section) => {
+        const rect = section.getBoundingClientRect()
+        return Math.max(0, window.scrollY + rect.top)
+      })
     }
 
     function getCurrentSectionIndex(points) {
@@ -61,6 +60,7 @@ export function useSnapScroll() {
     }
 
     function onWheel(e) {
+      if (Math.abs(e.deltaY) < 1) return
       e.preventDefault()
       const direction = e.deltaY > 0 ? 1 : -1
       snapTo(direction)

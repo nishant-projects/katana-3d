@@ -5,7 +5,7 @@ export default function EdgeSection() {
     <section
       ref={useRef()}
       style={{
-        height: '100vh',
+        height: '100dvh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',

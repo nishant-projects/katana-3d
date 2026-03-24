@@ -105,3 +105,13 @@ Registering GSAP plugins once at top-level bootstrap avoids duplicate side effec
 
 ### Why this update was made
 This pass fixes section snap alignment with the actual sticky content zone, improves perceived blade realism through shader-driven metal response, increases scene contrast/depth for cinematic presentation, and resolves typography/readability conflicts without changing the core section layout or animation choreography.
+
+## Update: Mobile snap alignment and blank-gap removal (2026-03-24)
+- Updated `src/hooks/useSnapScroll.js` snap-point logic to use real DOM section offsets from `.scroll-container > section` instead of hard-coded viewport multiples, so each wheel/touch scroll lands exactly on the next actual content section.
+- Added a tiny wheel noise guard (`Math.abs(deltaY) < 1`) in `useSnapScroll` to prevent accidental snap triggers from micro-scroll jitter on touchpads/devices.
+- Updated all text section components (`HeroDrop`, `BladeSection`, `EdgeSection`, `RotationSection`, `DrawSection`, `EndCard`) from `height: 100vh` to `height: 100dvh` for stable full-screen alignment on mobile browsers with dynamic address/tool bars.
+- Centered `EndCard` content (`justifyContent: 'center'`) and removed its bottom padding so the final text page aligns with the same centered snap behavior as the other sections.
+- Updated `src/styles/global.css` section baseline to `min-height: 100dvh` and explicit `margin: 0` to avoid inherited spacing artifacts between pages.
+
+### Why this update was made
+Users were seeing misaligned page stops and empty gaps between text sections while snapping, especially on mobile/tablet browsers. These changes make snapping section-aware and viewport-stable, ensuring one-scroll-per-page behavior and centered text frames without changing the overall animation flow or content structure.
