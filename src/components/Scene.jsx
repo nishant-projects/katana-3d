@@ -25,7 +25,7 @@ function AnimatedKatana({ katanaRef, isMobile, viewportScale }) {
       <Katana
         ref={katanaRef}
         rotation={[0, 0, 0]}
-        position={[0, isMobile ? -0.03 : 0, 0]}
+        position={[0, isMobile ? 0.14 : 0.08, 0]}
         scale={viewportScale}
       />
     </Float>
@@ -82,7 +82,7 @@ export default function Scene() {
 
       // Short-height devices (tablet landscape / browser UI overlays) need extra downscale
       const shortViewportPenalty = window.innerHeight < 760 ? 0.92 : 1
-      const baseScale = mobile ? 0.62 : 0.84
+      const baseScale = mobile ? 0.56 : 0.78
 
       setViewportScale(baseScale * fitScale * shortViewportPenalty)
     }
