@@ -16,7 +16,7 @@ export default function EndCard() {
         fontFamily: 'Noto Serif JP',
         fontSize: '0.75rem',
         letterSpacing: '0.5em',
-        color: '#444',
+        color: '#666',
         marginBottom: '1rem',
         fontWeight: 300,
       }}>Built with Three.js · React · GSAP</p>
@@ -24,7 +24,7 @@ export default function EndCard() {
         fontFamily: 'Bebas Neue',
         fontSize: '1rem',
         letterSpacing: '0.4em',
-        color: '#333',
+        color: '#555',
       }}>
         @Nishant_vib
       </p>

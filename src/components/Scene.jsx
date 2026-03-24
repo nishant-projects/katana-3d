@@ -91,11 +91,10 @@ export default function Scene() {
           pointerEvents: 'none',
         }}
       >
-        <ambientLight intensity={0.05} color="#ffffff" />
-        <directionalLight position={[3, 2, 2]} intensity={4} color="#ffffff" />
-        <directionalLight position={[-3, 1, -1]} intensity={0.8} color="#b0c4de" />
-        <pointLight position={[0, 3, 2]} intensity={1.5} color="#d4a847" distance={8} />
-        <rectAreaLight position={[2, 0, 1]} width={0.5} height={4} intensity={3} color="#c0c0c0" />
+        <ambientLight intensity={0.03} color="#ffffff" />
+        <directionalLight position={[3, 2, 2]} intensity={5} color="#ffffff" />
+        <directionalLight position={[-2, -1, -1]} intensity={1.2} color="#4466aa" />
+        <pointLight position={[0, 3, 2]} intensity={2} color="#d4a847" distance={10} />
         <spotLight
           ref={spotLightRef}
           position={[1, 4, 3]}
@@ -105,7 +104,7 @@ export default function Scene() {
           color="#ffffff"
         />
         <object3D ref={spotTargetRef} position={[0, 0, 0]} />
-        <Environment preset="studio" />
+        <Environment preset="warehouse" />
         <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
         <DustParticles />
       </Canvas>
