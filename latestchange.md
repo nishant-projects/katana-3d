@@ -206,3 +206,11 @@ On some devices, the katana extended beyond the visible screen area (especially 
 
 ### Why this update was made
 Users still reported the katana clipping out of frame on some device/browser combinations. This pass adds a stronger responsive downscale strategy so the full sword composition stays inside the visible screen more consistently.
+
+## Update: Handle visibility fix with extra viewport fit margin (2026-03-24)
+- Updated `src/components/Scene.jsx` katana placement so the sword is rendered slightly higher on screen (`position.y` increased for both mobile and desktop), preventing the handle from dropping below the viewport edge.
+- Reduced responsive base katana scale again (`mobile: 0.56`, `desktop: 0.78`) while keeping the existing width/height `fitScale` and short-viewport penalty logic unchanged.
+- Preserved all existing lighting, scroll interpolation, and post-processing behavior; only framing-related scale/position values were tuned.
+
+### Why this update was made
+On some screens, users could only see the blade while the handle was clipped at the bottom. Raising the model and applying a small extra downscale ensures the full katana (including handle) stays visible in a single screen composition.
