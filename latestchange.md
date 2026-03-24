@@ -173,3 +173,19 @@ Users reported that the sword looked oversized, appeared to break apart in some 
 
 ### Why this update was made
 This pass implements the requested architectural direction from the provided references: physically richer katana steel, controlled stage lighting with contact grounding, smooth scroll-driven unsheathing behavior, and cinematic bloom constrained to the sharpened edge instead of the entire scene.
+
+## Update: Photo-real katana tip/bevel pass, city HDR reflections, and readability upgrade (2026-03-24)
+- Refactored `src/components/Katana.jsx` for a more realistic blade silhouette:
+  - replaced the flat-ended blade box with a custom extruded blade profile that includes an actual pointed tip,
+  - enabled tiny bevels on blade edges so surfaces no longer end in perfectly hard 90° transitions,
+  - kept physically based shading via `meshStandardMaterial` with `metalness={1}`, `roughness={0.05}`, and `envMapIntensity={2.5}`,
+  - added a subtle procedural normal map (forge-like micro texture) to break up flat reflections and improve realism.
+- Refactored `src/components/Scene.jsx` to align with the requested render pipeline:
+  - added `<Environment preset="city" />`,
+  - added `<ContactShadows opacity={0.4} scale={10} blur={2} far={1} />` beneath the katana,
+  - replaced selective edge-only glow with `EffectComposer` + `Bloom` and ACES filmic `ToneMapping` for a cinematic HDR response.
+- Improved text clarity across visible content sections by brightening low-contrast body/subtext colors in `HeroDrop`, `BladeSection`, `EdgeSection`, `DrawSection`, `RotationSection`, and `EndCard`.
+- Updated `README.md` to reflect the new city-environment + bloom/tone-mapping pipeline, mirror-polished blade settings, and sharpened-tip geometry.
+
+### Why this update was made
+Users reported three quality issues: the katana looked flat with no convincing tip, text was too dim to read comfortably, and the overall render lacked a premium photoreal feel. This pass addresses all three with geometry realism, physically plausible reflections/post-processing, and stronger UI contrast while preserving the existing scroll narrative and structure.

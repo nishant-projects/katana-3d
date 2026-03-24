@@ -45,7 +45,7 @@ export default function HeroDrop() {
           fontFamily: 'Noto Serif JP',
           fontSize: '1.2rem',
           letterSpacing: '0.5em',
-          color: '#888',
+          color: '#b8b8b8',
           marginBottom: '1rem',
           fontWeight: 300,
         }}
@@ -71,7 +71,7 @@ export default function HeroDrop() {
           fontFamily: 'Noto Serif JP',
           fontSize: '0.85rem',
           letterSpacing: '0.3em',
-          color: '#555',
+          color: '#a8a8a8',
           marginTop: '2rem',
           fontWeight: 300,
         }}
@@ -82,7 +82,7 @@ export default function HeroDrop() {
         style={{
           width: '1px',
           height: '60px',
-          background: 'linear-gradient(to bottom, #555, transparent)',
+          background: 'linear-gradient(to bottom, #9a9a9a, transparent)',
           margin: '1.5rem auto 0',
           animation: 'pulse 2s ease-in-out infinite',
         }}

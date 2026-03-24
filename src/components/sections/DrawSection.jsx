@@ -48,7 +48,7 @@ export default function DrawSection() {
             fontFamily: 'Noto Serif JP',
             fontSize: '0.85rem',
             lineHeight: 1.9,
-            color: '#888',
+            color: '#b7b7b7',
             fontWeight: 300,
           }}
         >
