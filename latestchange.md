@@ -139,3 +139,14 @@ Users were seeing misaligned page stops and empty gaps between text sections whi
 
 ### Why this update was made
 This change implements the requested premium katana showcase direction: physically convincing metal response, motion-sensitive shine, scroll-based unsheathing narrative, and better tablet/mobile resilience through adaptive render quality.
+
+## Update: Sword stability, center alignment, and scroll motion polish (2026-03-24)
+- Updated `src/hooks/useScrollAnimation.js` to reduce extreme sword transforms between sections, keeping movement closer to center so the katana no longer jumps too far left/right or scales too large.
+- Tuned the unsheathing animation range for `blade-group` from a very large lift to a controlled draw/re-seat motion so the blade no longer looks visually detached or “broken” during scroll.
+- Updated `src/components/Scene.jsx` to reduce pointer tilt sensitivity and idle float intensity, especially on mobile, so the sword remains stable and more realistic while still reacting to user movement.
+- Reduced overall sword render size in `src/components/Scene.jsx` by lowering base scale on desktop/mobile to better fit section compositions.
+- Updated `src/components/Katana.jsx` proportions (blade, hamon overlay, guard/handle positions, and glint light) for a tighter, more believable silhouette and better part continuity.
+- Updated `src/hooks/useSnapScroll.js` to snap sections using center-aware offsets (`top + (sectionHeight - viewportHeight)/2`) so pages hold content in the middle more consistently across viewport variations.
+
+### Why this update was made
+Users reported that the sword looked oversized, appeared to break apart in some moments, and did not stay centered consistently during scroll. This pass focuses on animation restraint, proportional geometry tuning, and center-accurate snap behavior to deliver a more polished and realistic premium experience.

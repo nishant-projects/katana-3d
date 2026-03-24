@@ -14,7 +14,9 @@ export function useSnapScroll() {
       const sections = getSections()
       return sections.map((section) => {
         const rect = section.getBoundingClientRect()
-        return Math.max(0, window.scrollY + rect.top)
+        const absoluteTop = window.scrollY + rect.top
+        const centerOffset = Math.max(0, (rect.height - window.innerHeight) / 2)
+        return Math.max(0, absoluteTop + centerOffset)
       })
     }
 
