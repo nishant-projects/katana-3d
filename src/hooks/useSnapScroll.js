@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
 
-// These must match the height of each section in App.jsx, in order:
-// HeroDrop 200vh, BladeSection 200vh, EdgeSection 200vh,
-// RotationSection 200vh, DrawSection 200vh, EndCard 100vh
 const SECTION_HEIGHTS_VH = [200, 200, 200, 200, 200, 100]
 
 export function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
+    let touchStartY = 0
 
     function getSnapPoints() {
       const vh = window.innerHeight
@@ -31,14 +29,12 @@ export function useSnapScroll() {
       return index
     }
 
-    function onWheel(e) {
-      e.preventDefault()
-
+    function snapTo(direction) {
       if (isScrolling) return
+      if (!window.__lenis) return
 
       const points = getSnapPoints()
       const currentIndex = getCurrentSectionIndex(points)
-      const direction = e.deltaY > 0 ? 1 : -1
       const nextIndex = Math.max(0, Math.min(points.length - 1, currentIndex + direction))
 
       if (nextIndex === currentIndex) return
@@ -54,10 +50,37 @@ export function useSnapScroll() {
       })
     }
 
+    function onWheel(e) {
+      e.preventDefault()
+      const direction = e.deltaY > 0 ? 1 : -1
+      snapTo(direction)
+    }
+
+    function onTouchStart(e) {
+      touchStartY = e.touches[0].clientY
+    }
+
+    function onTouchEnd(e) {
+      const delta = touchStartY - e.changedTouches[0].clientY
+      if (Math.abs(delta) < 30) return
+      const direction = delta > 0 ? 1 : -1
+      snapTo(direction)
+    }
+
+    function onTouchMove(e) {
+      e.preventDefault()
+    }
+
     window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
 
     return () => {
       window.removeEventListener('wheel', onWheel, { capture: true })
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchend', onTouchEnd)
+      window.removeEventListener('touchmove', onTouchMove)
     }
   }, [])
 }
