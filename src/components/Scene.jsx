@@ -6,7 +6,7 @@ import { ToneMappingMode } from 'postprocessing'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import Katana from './Katana'
 
-function AnimatedKatana({ katanaRef, isMobile }) {
+function AnimatedKatana({ katanaRef, isMobile, viewportScale }) {
   useScrollAnimation(katanaRef)
 
   useFrame((state) => {
@@ -26,13 +26,13 @@ function AnimatedKatana({ katanaRef, isMobile }) {
         ref={katanaRef}
         rotation={[0, 0, 0]}
         position={[0, isMobile ? -0.03 : 0, 0]}
-        scale={isMobile ? 0.68 : 0.9}
+        scale={viewportScale}
       />
     </Float>
   )
 }
 
-function SceneContent({ katanaRef, isMobile }) {
+function SceneContent({ katanaRef, isMobile, viewportScale }) {
   return (
     <>
       <ambientLight intensity={0.16} color="#ffffff" />
@@ -42,7 +42,7 @@ function SceneContent({ katanaRef, isMobile }) {
 
       <Environment preset="city" />
 
-      <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
+      <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} viewportScale={viewportScale} />
 
       <ContactShadows
         position={[0, -2.65, 0]}
@@ -64,6 +64,7 @@ export default function Scene() {
   const katanaRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
   const [dpr, setDpr] = useState(1.5)
+  const [viewportScale, setViewportScale] = useState(0.8)
 
   const camera = useMemo(
     () => ({ position: [0, 0.1, isMobile ? 7 : 5.8], fov: 40, near: 0.1, far: 1000 }),
@@ -71,7 +72,16 @@ export default function Scene() {
   )
 
   useEffect(() => {
-    const updateViewport = () => setIsMobile(window.innerWidth < 992)
+    const updateViewport = () => {
+      const mobile = window.innerWidth < 992
+      setIsMobile(mobile)
+
+      const widthScale = Math.min(window.innerWidth / 1400, 1)
+      const heightScale = Math.min(window.innerHeight / 900, 1)
+      const fitScale = Math.max(0.58, Math.min(widthScale, heightScale))
+
+      setViewportScale((mobile ? 0.68 : 0.9) * fitScale)
+    }
 
     updateViewport()
     window.addEventListener('resize', updateViewport)
@@ -103,7 +113,7 @@ export default function Scene() {
           onIncline={() => setDpr(1.5)}
         />
 
-        <SceneContent katanaRef={katanaRef} isMobile={isMobile} />
+        <SceneContent katanaRef={katanaRef} isMobile={isMobile} viewportScale={viewportScale} />
       </Canvas>
     </div>
   )

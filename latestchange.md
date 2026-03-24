@@ -189,3 +189,11 @@ This pass implements the requested architectural direction from the provided ref
 
 ### Why this update was made
 Users reported three quality issues: the katana looked flat with no convincing tip, text was too dim to read comfortably, and the overall render lacked a premium photoreal feel. This pass addresses all three with geometry realism, physically plausible reflections/post-processing, and stronger UI contrast while preserving the existing scroll narrative and structure.
+
+## Update: Viewport-fit katana scaling for full single-screen visibility (2026-03-24)
+- Updated `src/components/Scene.jsx` so katana scale is now computed from both viewport width and height (`fitScale`) instead of using only a fixed desktop/mobile value.
+- Added a `viewportScale` state and passed it into the katana render path (`SceneContent` → `AnimatedKatana` → `Katana`).
+- Kept all existing interactions unchanged (scroll interpolation, unsheathing, tilt, float, lighting, and post-processing); only the model size is responsively reduced to stay fully visible on smaller screens/tablets.
+
+### Why this update was made
+On some devices, the katana extended beyond the visible screen area (especially near the handle) in single-page sections. This change keeps the sword fully inside one viewport without changing section behavior or animation functionality.
