@@ -6,12 +6,12 @@ function App() {
     <div>
       <Scene />
       <div className="scroll-container">
-        <section style={{height: '100vh'}}></section>
-        <section style={{height: '100vh'}}></section>
-        <section style={{height: '100vh'}}></section>
-        <section style={{height: '100vh'}}></section>
-        <section style={{height: '100vh'}}></section>
-        <section style={{height: '100vh'}}></section>
+        <section style={{height: '200vh'}}></section>
+        <section style={{height: '200vh'}}></section>
+        <section style={{height: '200vh'}}></section>
+        <section style={{height: '200vh'}}></section>
+        <section style={{height: '200vh'}}></section>
+        <section style={{height: '200vh'}}></section>
       </div>
     </div>
   )
