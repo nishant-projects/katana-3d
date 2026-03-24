@@ -6,6 +6,7 @@ export function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
     let touchStartY = 0
+    let safetyTimer = null
 
     function getSnapPoints() {
       const vh = window.innerHeight
@@ -29,6 +30,14 @@ export function useSnapScroll() {
       return index
     }
 
+    function unlock() {
+      isScrolling = false
+      if (safetyTimer) {
+        clearTimeout(safetyTimer)
+        safetyTimer = null
+      }
+    }
+
     function snapTo(direction) {
       if (isScrolling) return
       if (!window.__lenis) return
@@ -41,12 +50,13 @@ export function useSnapScroll() {
 
       isScrolling = true
 
+      // Safety unlock in case onComplete never fires
+      safetyTimer = setTimeout(unlock, 2000)
+
       window.__lenis.scrollTo(points[nextIndex], {
         duration: 1.4,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        onComplete: () => {
-          isScrolling = false
-        },
+        onComplete: unlock,
       })
     }
 
@@ -58,29 +68,32 @@ export function useSnapScroll() {
 
     function onTouchStart(e) {
       touchStartY = e.touches[0].clientY
+      // Pause lenis free-scroll while we decide where to snap
+      if (window.__lenis) window.__lenis.stop()
     }
 
     function onTouchEnd(e) {
       const delta = touchStartY - e.changedTouches[0].clientY
+
+      // Re-enable lenis before snapping so scrollTo works
+      if (window.__lenis) window.__lenis.start()
+
       if (Math.abs(delta) < 30) return
+
       const direction = delta > 0 ? 1 : -1
       snapTo(direction)
-    }
-
-    function onTouchMove(e) {
-      e.preventDefault()
     }
 
     window.addEventListener('wheel', onWheel, { passive: false, capture: true })
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchend', onTouchEnd, { passive: true })
-    window.addEventListener('touchmove', onTouchMove, { passive: false })
 
     return () => {
       window.removeEventListener('wheel', onWheel, { capture: true })
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchend', onTouchEnd)
-      window.removeEventListener('touchmove', onTouchMove)
+      if (safetyTimer) clearTimeout(safetyTimer)
+      if (window.__lenis) window.__lenis.start()
     }
   }, [])
 }
