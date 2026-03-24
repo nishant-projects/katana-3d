@@ -4,12 +4,16 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import Katana from './Katana'
 
+function AnimatedKatana({ katanaRef }) {
+  useScrollAnimation(katanaRef)
+
+  return <Katana ref={katanaRef} rotation={[0, 0, 0]} position={[0, 0, 0]} />
+}
+
 export default function Scene() {
   const spotLightRef = useRef(null)
   const spotTargetRef = useRef(null)
   const katanaRef = useRef()
-
-  useScrollAnimation(katanaRef)
 
   useLayoutEffect(() => {
     if (!spotLightRef.current || !spotTargetRef.current) return
@@ -32,7 +36,7 @@ export default function Scene() {
     >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
-        style={{ background: '#000000' }}
+        style={{ background: '#000000', pointerEvents: 'none' }}
       >
         <ambientLight intensity={0.05} color="#ffffff" />
         <directionalLight position={[3, 2, 2]} intensity={4} color="#ffffff" />
@@ -49,7 +53,7 @@ export default function Scene() {
         />
         <object3D ref={spotTargetRef} position={[0, 0, 0]} />
         <Environment preset="studio" />
-        <Katana ref={katanaRef} rotation={[0, 0, 0]} position={[0, 0, 0]} />
+        <AnimatedKatana katanaRef={katanaRef} />
       </Canvas>
     </div>
   )

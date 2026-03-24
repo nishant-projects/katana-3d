@@ -46,3 +46,11 @@ This change moves the scene from a placeholder shape to the real katana model an
 
 ### Why this update was made
 The previous setup looked visually flat. These lighting and environment changes increase depth, bring out edge/specular detail, and maintain a polished steel response on the blade without altering any geometry.
+
+## Update: ScrollTrigger activation fixes (2026-03-24)
+- Updated `src/App.jsx` so each `.scroll-container` section now uses `height: 200vh` instead of `100vh` to provide enough scroll distance for the GSAP timeline to progress reliably.
+- Updated `src/components/Scene.jsx` to run `useScrollAnimation` inside an `AnimatedKatana` component that renders inside `<Canvas>`, ensuring the hook is attached where the 3D object ref lifecycle is fully in-canvas.
+- Explicitly set `pointerEvents: 'none'` on the `<Canvas>` style (in addition to existing overlay behavior) so scroll/pointer interaction always passes through to the page.
+
+### Why this update was made
+The scroll animation was not consistently triggering because the scroll area was too short and the animation hook placement could race with canvas object lifecycle timing. These fixes preserve existing katana geometry while making ScrollTrigger activation stable.
