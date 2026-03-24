@@ -81,7 +81,7 @@ export default function BladeSection() {
             fontFamily: 'Noto Serif JP',
             fontSize: '0.85rem',
             lineHeight: 1.9,
-            color: '#888',
+            color: '#b7b7b7',
             fontWeight: 300,
             letterSpacing: '0.05em',
           }}
@@ -112,7 +112,7 @@ export default function BladeSection() {
                 style={{
                   fontSize: '0.7rem',
                   letterSpacing: '0.2em',
-                  color: '#555',
+                  color: '#9a9a9a',
                   fontFamily: 'Noto Serif JP',
                 }}
               >

@@ -18,7 +18,7 @@ export default function EndCard() {
           fontFamily: 'Noto Serif JP',
           fontSize: '0.75rem',
           letterSpacing: '0.5em',
-          color: '#666',
+          color: '#a8a8a8',
           marginBottom: '1rem',
           fontWeight: 300,
         }}
@@ -30,7 +30,7 @@ export default function EndCard() {
           fontFamily: 'Bebas Neue',
           fontSize: '1rem',
           letterSpacing: '0.4em',
-          color: '#555',
+          color: '#9a9a9a',
         }}
       >
         @Nishant_vib

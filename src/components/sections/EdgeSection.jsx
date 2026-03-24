@@ -25,7 +25,7 @@ export default function EdgeSection() {
             fontFamily: 'Noto Serif JP',
             fontSize: '0.75rem',
             letterSpacing: '0.4em',
-            color: '#8b0000',
+            color: '#c65a5a',
             marginBottom: '1.2rem',
             textTransform: 'uppercase',
           }}
@@ -51,7 +51,7 @@ export default function EdgeSection() {
             fontFamily: 'Noto Serif JP',
             fontSize: '0.85rem',
             lineHeight: 1.9,
-            color: '#888',
+            color: '#b7b7b7',
             fontWeight: 300,
           }}
         >

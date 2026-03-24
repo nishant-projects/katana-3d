@@ -45,7 +45,7 @@ export default function RotationSection() {
           style={{
             fontFamily: 'Noto Serif JP',
             fontSize: '0.8rem',
-            color: '#555',
+            color: '#a8a8a8',
             marginTop: '1.5rem',
             letterSpacing: '0.3em',
             fontWeight: 300,

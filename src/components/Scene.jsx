@@ -1,74 +1,60 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, Float, PerformanceMonitor, Stage } from '@react-three/drei'
-import { EffectComposer, SelectiveBloom } from '@react-three/postprocessing'
+import { ContactShadows, Environment, Float, PerformanceMonitor } from '@react-three/drei'
+import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
+import { ToneMappingMode } from 'postprocessing'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import Katana from './Katana'
 
-function AnimatedKatana({ katanaRef, bladeEdgeRef, lightRefs, isMobile }) {
+function AnimatedKatana({ katanaRef, isMobile }) {
   useScrollAnimation(katanaRef)
 
   useFrame((state) => {
     if (!katanaRef.current) return
 
-    const pointerFactor = isMobile ? 0.3 : 0.8
-    const targetX = state.pointer.y * 0.065 * pointerFactor
-    const targetY = state.pointer.x * 0.11 * pointerFactor
+    const pointerFactor = isMobile ? 0.28 : 0.72
+    const targetX = state.pointer.y * 0.058 * pointerFactor
+    const targetY = state.pointer.x * 0.1 * pointerFactor
 
     katanaRef.current.rotation.x += (targetX - katanaRef.current.rotation.x) * 0.03
     katanaRef.current.rotation.y += (targetY - katanaRef.current.rotation.y) * 0.03
   })
 
   return (
-    <Float speed={0.35} floatIntensity={0.07} rotationIntensity={0.04}>
+    <Float speed={0.28} floatIntensity={0.06} rotationIntensity={0.03}>
       <Katana
         ref={katanaRef}
-        bladeEdgeRef={bladeEdgeRef}
-        lightRefs={lightRefs}
         rotation={[0, 0, 0]}
-        position={[0, isMobile ? -0.04 : 0, 0]}
+        position={[0, isMobile ? -0.03 : 0, 0]}
         scale={isMobile ? 0.68 : 0.9}
       />
     </Float>
   )
 }
 
-function SceneContent({ katanaRef, bladeEdgeRef, lightRefs, isMobile }) {
+function SceneContent({ katanaRef, isMobile }) {
   return (
     <>
-      <Stage
-        intensity={0.68}
-        environment={null}
-        preset="rembrandt"
-        adjustCamera={false}
-        shadows={{
-          type: 'contact',
-          opacity: 0.42,
-          blur: 2.8,
-          far: 3.2,
-          resolution: 1024,
-        }}
-      >
-        <AnimatedKatana
-          katanaRef={katanaRef}
-          bladeEdgeRef={bladeEdgeRef}
-          lightRefs={lightRefs}
-          isMobile={isMobile}
-        />
-      </Stage>
+      <ambientLight intensity={0.16} color="#ffffff" />
+      <directionalLight position={[3, 3, 2]} intensity={2.4} color="#f6fbff" castShadow />
+      <directionalLight position={[-3, 1.5, -1]} intensity={0.7} color="#9eb7d3" />
+      <pointLight position={[0.4, 0.8, 1.8]} intensity={1.4} color="#c9e5ff" distance={5} />
 
-      <Environment preset="studio" />
+      <Environment preset="city" />
+
+      <AnimatedKatana katanaRef={katanaRef} isMobile={isMobile} />
+
+      <ContactShadows
+        position={[0, -2.65, 0]}
+        opacity={0.4}
+        scale={10}
+        blur={2}
+        far={1}
+      />
 
       <EffectComposer multisampling={0}>
-        <SelectiveBloom
-          lights={lightRefs.current}
-          selection={bladeEdgeRef}
-          selectionLayer={10}
-          intensity={1.8}
-          luminanceThreshold={0.22}
-          luminanceSmoothing={0.04}
-          mipmapBlur
-        />
+        <Bloom luminanceThreshold={1} intensity={1.5} mipmapBlur />
+        <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       </EffectComposer>
     </>
   )
@@ -76,13 +62,11 @@ function SceneContent({ katanaRef, bladeEdgeRef, lightRefs, isMobile }) {
 
 export default function Scene() {
   const katanaRef = useRef(null)
-  const bladeEdgeRef = useRef(null)
-  const lightRefs = useRef([])
   const [isMobile, setIsMobile] = useState(false)
   const [dpr, setDpr] = useState(1.5)
 
   const camera = useMemo(
-    () => ({ position: [0, 0.1, isMobile ? 7 : 5.6], fov: 40, near: 0.1, far: 1000 }),
+    () => ({ position: [0, 0.1, isMobile ? 7 : 5.8], fov: 40, near: 0.1, far: 1000 }),
     [isMobile]
   )
 
@@ -107,6 +91,7 @@ export default function Scene() {
       }}
     >
       <Canvas
+        shadows
         camera={camera}
         dpr={dpr}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
@@ -118,12 +103,7 @@ export default function Scene() {
           onIncline={() => setDpr(1.5)}
         />
 
-        <SceneContent
-          katanaRef={katanaRef}
-          bladeEdgeRef={bladeEdgeRef}
-          lightRefs={lightRefs}
-          isMobile={isMobile}
-        />
+        <SceneContent katanaRef={katanaRef} isMobile={isMobile} />
       </Canvas>
     </div>
   )
