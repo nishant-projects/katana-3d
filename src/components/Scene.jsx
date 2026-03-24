@@ -82,6 +82,7 @@ export default function Scene() {
         camera={{ position: [0, 0, isMobile ? 7 : 5], fov: 45, near: 0.1, far: 1000 }}
         performance={{ min: 0.5 }}
         dpr={[1, 1.5]}
+        gl={{ powerPreference: 'high-performance' }}
         style={{
           position: 'fixed',
           top: 0,
