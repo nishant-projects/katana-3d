@@ -82,7 +82,7 @@ export default function Scene() {
 
       // Short-height devices (tablet landscape / browser UI overlays) need extra downscale
       const shortViewportPenalty = window.innerHeight < 760 ? 0.92 : 1
-      const baseScale = mobile ? 0.44 : 0.60
+      const baseScale = mobile ? 0.34 : 0.50
 
       setViewportScale(baseScale * fitScale * shortViewportPenalty)
     }
