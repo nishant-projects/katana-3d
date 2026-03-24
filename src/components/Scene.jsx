@@ -5,7 +5,7 @@ import { Environment } from '@react-three/drei'
 import Katana from './Katana'
 
 
-const DUST_COUNT = 120
+const DUST_COUNT = 40
 const DUST_POSITIONS = new Float32Array(DUST_COUNT * 3)
 
 for (let i = 0; i < DUST_COUNT; i++) {
