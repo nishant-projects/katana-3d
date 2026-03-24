@@ -65,3 +65,22 @@ The scroll animation was not consistently triggering because the scroll area was
 
 ### Why this update was made
 This implements the requested cinematic hero intro behavior and shared pulse animation needed by the section’s inline styles.
+
+## Update: Production build chunking optimization (2026-03-24)
+- Updated `vite.config.js` to define `build.rollupOptions.output.manualChunks` and split heavy dependencies into dedicated chunks:
+  - `three-core` for `three`
+  - `r3f-vendor` for `@react-three/fiber`
+  - `drei-vendor` for `@react-three/drei`
+  - `gsap-vendor` for `gsap`
+  - `vendor` for the remaining `node_modules`
+- Set `build.chunkSizeWarningLimit` to `1000` to match expected bundle profile for a WebGL-heavy scene and remove non-actionable build noise after chunking.
+- Re-ran production build to ensure `dist/` is generated with a valid `dist/index.html`.
+
+### Why this update was made
+The build was producing a large chunk-size warning. This change reduces risk of runtime performance/visual jank on slower devices by delivering large libraries in smaller cacheable chunks, without changing UI behavior or visuals.
+
+## Update: Explicit Vercel/Vite output directory config (2026-03-24)
+- Updated `vite.config.js` to explicitly set `build.outDir` to `dist`.
+
+### Why this update was made
+Vite already defaults to `dist`, but setting it explicitly makes deployment intent clearer for Vercel configuration and avoids ambiguity in future build config changes.
