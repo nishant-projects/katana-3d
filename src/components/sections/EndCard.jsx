@@ -30,10 +30,10 @@ export default function EndCard() {
           fontFamily: 'Bebas Neue',
           fontSize: '1rem',
           letterSpacing: '0.4em',
-          color: '#9a9a9a',
+          color: '#b5b5b5',
         }}
       >
-    
+        SHINKEN · MASTERCRAFT SERIES
       </p>
     </section>
   )

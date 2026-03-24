@@ -230,3 +230,15 @@ On some screens, users could only see the blade while the handle was clipped at 
 
 ### Why this update was made
 This change converts the previous showcase-only experience into a production-style premium ecommerce site while explicitly preserving the existing 3D home storytelling and scroll behavior. It provides real navigation and actionable purchase/custom inquiry flows on every major CTA.
+
+## Update: Desktop snap-scroll reliability and final UI polish (2026-03-24)
+- Updated `src/hooks/useSnapScroll.js` desktop scroll handling to improve one-scroll-per-section behavior:
+  - added wheel-delta accumulation with a threshold so high-resolution trackpads still trigger exactly one section snap,
+  - blocked micro wheel jitter and modifier-key zoom gestures from accidental snapping,
+  - added keyboard pagination support (`ArrowUp/Down`, `PageUp/Down`, `Space`) for reliable desktop navigation,
+  - kept Lenis snap locking/safety timeout behavior and cleanup, while tightening listener lifecycle.
+- Updated `src/styles/global.css` with `overscroll-behavior-y: none` and large-screen section horizontal padding tuning for steadier desktop framing.
+- Updated `src/components/sections/EndCard.jsx` to replace an empty closing line with readable brand copy and stronger contrast.
+
+### Why this update was made
+This final polish pass focuses on desktop/laptop UX quality: making section snapping deterministic per deliberate scroll action, reducing accidental jitter transitions, improving keyboard accessibility, and tightening end-of-journey visual finish without changing existing page flows or core functionality.
