@@ -67,7 +67,7 @@ export default function Scene() {
   const [viewportScale, setViewportScale] = useState(0.8)
 
   const camera = useMemo(
-    () => ({ position: [0, 0.1, isMobile ? 7 : 5.8], fov: 40, near: 0.1, far: 1000 }),
+    () => ({ position: [0, 0.3, isMobile ? 8 : 6.5], fov: 40, near: 0.1, far: 1000 }),
     [isMobile]
   )
 
@@ -82,7 +82,7 @@ export default function Scene() {
 
       // Short-height devices (tablet landscape / browser UI overlays) need extra downscale
       const shortViewportPenalty = window.innerHeight < 760 ? 0.92 : 1
-      const baseScale = mobile ? 0.56 : 0.78
+      const baseScale = mobile ? 0.44 : 0.60
 
       setViewportScale(baseScale * fitScale * shortViewportPenalty)
     }
