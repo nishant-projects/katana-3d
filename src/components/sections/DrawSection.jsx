@@ -2,7 +2,7 @@ export default function DrawSection() {
   return (
     <section
       style={{
-        height: '100vh',
+        height: '100dvh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',

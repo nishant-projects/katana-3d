@@ -2,12 +2,11 @@ export default function EndCard() {
   return (
     <section
       style={{
-        height: '100vh',
+        height: '100dvh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: '10vh',
+        justifyContent: 'center',
         position: 'relative',
         zIndex: 10,
         pointerEvents: 'none',
