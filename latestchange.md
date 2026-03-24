@@ -84,3 +84,12 @@ The build was producing a large chunk-size warning. This change reduces risk of 
 
 ### Why this update was made
 Vite already defaults to `dist`, but setting it explicitly makes deployment intent clearer for Vercel configuration and avoids ambiguity in future build config changes.
+
+
+## Update: Centralized ScrollTrigger plugin registration (2026-03-24)
+- Kept `gsap.registerPlugin(ScrollTrigger)` only in `src/main.jsx` as the single app-bootstrap registration point.
+- Removed duplicate `gsap.registerPlugin(ScrollTrigger)` call from `src/hooks/useScrollAnimation.js`.
+- Preserved existing timeline behavior in `useScrollAnimation`, including `scrub: 1.5`, and left Lenis RAF/`ScrollTrigger.update()` logic unchanged in `src/main.jsx`.
+
+### Why this update was made
+Registering GSAP plugins once at top-level bootstrap avoids duplicate side effects during hook/module evaluation while keeping scroll animation behavior identical.
