@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SECTION_HEIGHTS_VH = [200, 200, 200, 200, 200, 100]
+const SECTION_COUNT = 6
 
 export function useSnapScroll() {
   useEffect(() => {
@@ -11,13 +11,9 @@ export function useSnapScroll() {
     function getSnapPoints() {
       const vh = window.innerHeight
       const points = []
-      let sectionTop = 0
 
-      for (const heightVh of SECTION_HEIGHTS_VH) {
-        const sectionHeightPx = (heightVh / 100) * vh
-        const snapTarget = heightVh > 100 ? sectionTop + vh : sectionTop
-        points.push(snapTarget)
-        sectionTop += sectionHeightPx
+      for (let i = 0; i < SECTION_COUNT; i += 1) {
+        points.push(i * vh)
       }
 
       return points
@@ -26,7 +22,7 @@ export function useSnapScroll() {
     function getCurrentSectionIndex(points) {
       const y = window.scrollY
       let index = 0
-      for (let i = 0; i < points.length; i++) {
+      for (let i = 0; i < points.length; i += 1) {
         if (y >= points[i] - 20) {
           index = i
         }
