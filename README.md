@@ -26,19 +26,7 @@ functional storefront flow (product, cart, checkout, custom commissions, and con
 - App-wide `CartContext` state for item count, total, quantity updates
 - Functional CTA behavior (add to cart, buy now, proceed checkout, submit forms)
 - Consistent premium black/gold visual language across inner pages
-
-## Local Development
-
-```bash
-npm install
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-```
+- 
 
 ## Notes
 
