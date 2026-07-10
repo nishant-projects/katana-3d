@@ -1,5 +1,7 @@
 # SHINKEN — Premium Katana 3D + Ecommerce Experience
 
+> 🏆 **Featured on the [OpenAI Developers Showcase](https://developers.openai.com/showcase/forged-in-silence)** — "Forged in Silence"
+
 SHINKEN is a premium ecommerce experience built on top of a cinematic 3D katana scroll journey.
 The home route keeps the original immersive WebGL storytelling, while new routes provide a fully
 functional storefront flow (product, cart, checkout, custom commissions, and contact).
@@ -26,7 +28,6 @@ functional storefront flow (product, cart, checkout, custom commissions, and con
 - App-wide `CartContext` state for item count, total, quantity updates
 - Functional CTA behavior (add to cart, buy now, proceed checkout, submit forms)
 - Consistent premium black/gold visual language across inner pages
-- 
 
 ## Notes
 
